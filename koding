@@ -1,0 +1,60 @@
+/*
+Youtube.com/LeimanGoVlog
+Tokopedia.com/tridipiproject
+saweria.co/leimangovlog
+instagram/tridipi.project
+github.com/leiman07
+leimanilmu.blogspot.com
+*/
+
+//Cara membuat alat ukur jarak digital IOT dengan aplikasi blynk - Arduino | IOT | Automatian |Nodemcu
+
+
+#define BLYNK_PRINT Serial
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+#define TRIGGERPIN D5
+#define ECHOPIN    D6
+
+char auth[] = "------------------------------";
+
+char ssid[] = "------------";
+char pass[] = "------------";
+
+WidgetLCD lcd(V1);
+
+void setup()
+{
+  
+  Serial.begin(9600);
+  pinMode(TRIGGERPIN, OUTPUT);
+  pinMode(ECHOPIN, INPUT);
+  Blynk.begin(auth, ssid, pass);
+  lcd.clear();
+  lcd.print(0, 0, "Jarak Dalam CM"); 
+}
+
+void loop()
+{
+  lcd.clear();
+  lcd.print(1, 0, "Jarak Dalam CM");
+  long duration, distance;
+  digitalWrite(TRIGGERPIN, LOW);  
+  delayMicroseconds(3); 
+  digitalWrite(TRIGGERPIN, HIGH);
+  delayMicroseconds(12); 
+  digitalWrite(TRIGGERPIN, LOW);
+  duration = pulseIn(ECHOPIN, HIGH);
+  distance = (duration/2) / 29.1;
+  Serial.print(distance);
+  Serial.println("Cm");
+  lcd.print(7, 1, distance);
+  Blynk.run();
+
+  delay(500);
+
+}
+
+//PROJECT : Cara membuat alat ukur jarak digital IOT dengan aplikasi blynk - Arduino | IOT | Automatian |Nodemcu
+//DIBUAT  : TRIDIPI.PROJECT
+//TANGGAL : 07/12/2021
